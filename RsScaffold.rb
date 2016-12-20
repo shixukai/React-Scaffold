@@ -11,7 +11,7 @@ class RsScaffold
     new_context = context.gsub(old_comp_name, new_comp_name)
 
     new_file_dir = File.join(dest_path, new_comp_name)
-    Dir.mkdir(new_file_dir) unless File.exists?(new_file_dir)
+    FileUtils.mkdir_p(new_file_dir) unless File.exists?(new_file_dir)
 
     new_file_path = File.join(new_file_dir, new_file_name)
 
