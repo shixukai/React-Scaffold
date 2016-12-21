@@ -4,14 +4,15 @@ require 'optparse'
 options = {}
 args = {}
 OptionParser.new do |opts|
-  opts.banner = "Usage: rsca ComponentName [options]"
-  opts.on("--destination=path", "destination path") do |d|
-    args[:destination] = d
-  end
+  opts.banner = "Usage: rsca ComponentName [path:optional]"
+  # opts.on("--destination=path", "destination path") do |d|
+  #   args[:destination] = d
+  # end
 end.parse!
 
 comp_name = ARGV[0]
-dest_path = args[:destination] || './'
+dest_path = ARGV[1] || './'
+
 if !comp_name
   puts 'component name is required'
   exit
@@ -22,4 +23,4 @@ RsScaffold.sub_and_copy('Template/Template.js', dest_path, 'Template', comp_name
 RsScaffold.sub_and_copy('Template/index.js', dest_path, 'Template', comp_name)
 RsScaffold.sub_and_copy('Template/styles.scss', dest_path, 'Template', comp_name)
 
-puts "组件创建成功 : #{dest_path + comp_name}"
+puts "组件创建成功 : #{File.join(dest_path, comp_name)}"
