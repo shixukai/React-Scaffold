@@ -1,6 +1,7 @@
 require 'fileutils'
 
 class RsScaffold
+  # scaffold component
   def self.comp_sub_and_copy (template_file, dest_dir, old_comp_name, new_comp_name, new_file_name = nil)
     template_file_path = File.join(File.dirname(__FILE__), template_file)
 
@@ -37,6 +38,7 @@ class RsScaffold
     puts "创建成功 : #{new_file_path}"
   end
 
+  # scaffold actions
   def self.action_sub_and_copy (template_file, dest_dir, action_name, replace_params = {})
     template_file_path = File.join(File.dirname(__FILE__), template_file)
     new_file_path = File.join(dest_dir, action_name)
@@ -64,5 +66,21 @@ class RsScaffold
     # puts new_file_path
     # puts template_context
     puts "创建成功 : #{new_file_path}"
+
+    add_to_action_index(dest_dir, action_name, 'index.js')
+  end
+
+private
+  def self.add_to_action_index (dest_dir, action_name, index_file_name)
+    index_file_path = File.join(dest_dir, index_file_name)
+
+    export_content = "export * as #{action_name} from './#{action_name}';"
+
+    new_file = File.open(index_file_path, 'a') do |file|
+      file.puts(export_content)
+      file.close()
+    end
+
+    puts "加入index成功"
   end
 end
