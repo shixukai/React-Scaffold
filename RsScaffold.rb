@@ -74,7 +74,7 @@ private
   def self.add_to_action_index (dest_dir, action_name, index_file_name)
     index_file_path = File.join(dest_dir, index_file_name)
 
-    export_content = "export * as #{action_name} from './#{action_name}';"
+    export_content = "export * as #{action_name.gsub('.js', '')} from './#{action_name.gsub('.js', '')}';"
 
     new_file = File.open(index_file_path, 'a') do |file|
       file.puts(export_content)
