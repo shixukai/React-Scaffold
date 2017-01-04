@@ -2,6 +2,7 @@ require 'fileutils'
 
 class RsScaffold
   # scaffold component
+  #参数依次为：模版名称，目标路径， 模板中的组件名称，新的组件名称，新的文件名（可选）
   def self.comp_sub_and_copy (template_file, dest_dir, old_comp_name, new_comp_name, new_file_name = nil)
     template_file_path = File.join(File.dirname(__FILE__), template_file)
 

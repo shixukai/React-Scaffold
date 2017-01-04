@@ -16,11 +16,15 @@ OptionParser.new do |opts|
   opts.on("-a", "action scaffold") do
     options[:action] = true
   end
+
+  opts.on("-d", "dynamic routes index") do
+    options[:dynamic] = true
+  end
 end.parse!
 
 
 
-def create_component
+def create_component(options)
   comp_name = ARGV[0]
   dest_dir = ARGV[1] || './'
 
@@ -31,8 +35,13 @@ def create_component
 
   # files_name = ['Template/Template.js', 'Template/styles.scss', 'Template/index.js']
   RsScaffold.comp_sub_and_copy('Template/components/Template.js', dest_dir, 'Template', comp_name, comp_name + '.js')
-  RsScaffold.comp_sub_and_copy('Template/components/index.js', dest_dir, 'Template', comp_name)
   RsScaffold.comp_sub_and_copy('Template/components/styles.scss', dest_dir, 'Template', comp_name)
+  if options[:dynamic]
+    puts 'dynamic index'
+    RsScaffold.comp_sub_and_copy('Template/components/dynamicIndex.js', dest_dir, 'Template', comp_name, 'index.js')
+  else
+    RsScaffold.comp_sub_and_copy('Template/components/index.js', dest_dir, 'Template', comp_name)
+  end
 end
 
 def create_action
@@ -48,7 +57,10 @@ def create_action
 end
 
 if  options[:component]
-  create_component
+  create_component(options)
 elsif options[:action]
   create_action
+else
+  #默认创建component
+  create_component(options)
 end
